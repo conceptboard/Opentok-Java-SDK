@@ -28,13 +28,20 @@ import com.opentok.util.TokBoxXML;
 import com.opentok.api.OpenTokSession;
 
 public class OpenTokSDK {
+	protected final API_Config apiConfig;
 
-	protected int api_key;
-	protected String api_secret;
+	private OpenTokSDK(int api_key, String api_secret, String api_url){
+		this.apiConfig = new API_Config(api_key, api_secret, api_url);
+	}
 
-	public OpenTokSDK(int api_key, String api_secret) {
-		this.api_key = api_key;
-		this.api_secret = api_secret.trim();
+	private OpenTokSDK staging(int api_key, String api_secret) {
+		return new OpenTokSDK(api_key, api_secret, API_Config.STAGING_URL);
+	}
+	private OpenTokSDK production(int api_key, String api_secret) {
+		return new OpenTokSDK(api_key, api_secret, API_Config.PRODUCTION_URL);
+	}
+	private OpenTokSDK create(int api_key, String api_secret, String api_url) {
+		return new OpenTokSDK(api_key, api_secret, api_url);
 	}
 
 	/**
@@ -88,12 +95,12 @@ public class OpenTokSDK {
 
 			StringBuilder inner_builder = new StringBuilder();
 			inner_builder.append("partner_id=");
-			inner_builder.append(this.api_key);
+			inner_builder.append(apiConfig.api_key);
 
 			inner_builder.append("&sig=");
 
 			inner_builder.append(GenerateMac.calculateRFC2104HMAC(data_string_builder.toString(),
-																  this.api_secret));
+																  apiConfig.api_secret));
 			inner_builder.append(":");
 			inner_builder.append(data_string_builder.toString());
 
@@ -162,9 +169,9 @@ public class OpenTokSDK {
 	protected TokBoxXML do_request(String url, Map<String, String> params) throws OpenTokException {
 		TokBoxNetConnection n = new TokBoxNetConnection();
 		Map<String, String> headers = new HashMap<String, String>();
-		headers.put("X-TB-PARTNER-AUTH", this.api_key + ":" + this.api_secret);
+		headers.put("X-TB-PARTNER-AUTH", apiConfig.api_key + ":" + apiConfig.api_secret);
 
-		return new TokBoxXML(n.request(API_Config.API_URL + url, params, headers));
+		return new TokBoxXML(n.request(apiConfig.api_url + url, params, headers));
 	}
 
 	protected static String join(List<String> s, String delimiter) throws java.io.UnsupportedEncodingException{
