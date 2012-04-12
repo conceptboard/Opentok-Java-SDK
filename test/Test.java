@@ -13,7 +13,7 @@ class UnitTest {
     OpenTokSDK sdk;
 
     public UnitTest() {
-		sdk = new OpenTokSDK(API_Config.API_KEY,API_Config.API_SECRET);
+		sdk = OpenTokSDK.testing();
     }
 
     private TokBoxXML get_session_info(String session_id) {

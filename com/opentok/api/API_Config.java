@@ -12,6 +12,10 @@ public class API_Config {
     public static final String STAGING_URL = "http://staging.tokbox.com/hl";
     public static final String PRODUCTION_URL = "https://api.opentok.com/hl";
 
+    public static final String API_URL = STAGING_URL;
+
+    public static final API_Config TEST_API_CONFIG = new API_Config(4317, "91e6f7609074be23b40747a4651ba5a7", STAGING_URL);
+
     final int api_key;
     final String api_secret;
     final String api_url;

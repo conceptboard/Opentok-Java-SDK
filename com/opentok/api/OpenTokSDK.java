@@ -30,18 +30,21 @@ import com.opentok.api.OpenTokSession;
 public class OpenTokSDK {
 	protected final API_Config apiConfig;
 
-	private OpenTokSDK(int api_key, String api_secret, String api_url){
-		this.apiConfig = new API_Config(api_key, api_secret, api_url);
+	private OpenTokSDK(API_Config apiConfig){
+		this.apiConfig = apiConfig;
 	}
 
-	private OpenTokSDK staging(int api_key, String api_secret) {
-		return new OpenTokSDK(api_key, api_secret, API_Config.STAGING_URL);
+	public static OpenTokSDK staging(int api_key, String api_secret) {
+		return new OpenTokSDK(new API_Config(api_key, api_secret, API_Config.STAGING_URL));
 	}
-	private OpenTokSDK production(int api_key, String api_secret) {
-		return new OpenTokSDK(api_key, api_secret, API_Config.PRODUCTION_URL);
+	public static OpenTokSDK production(int api_key, String api_secret) {
+		return new OpenTokSDK(new API_Config(api_key, api_secret, API_Config.PRODUCTION_URL));
 	}
-	private OpenTokSDK create(int api_key, String api_secret, String api_url) {
-		return new OpenTokSDK(api_key, api_secret, api_url);
+	public static OpenTokSDK create(int api_key, String api_secret, String api_url) {
+		return new OpenTokSDK(new API_Config(api_key, api_secret, api_url));
+	}
+	public static OpenTokSDK testing() {
+		return new OpenTokSDK(API_Config.TEST_API_CONFIG);
 	}
 
 	/**
