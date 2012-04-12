@@ -18,7 +18,7 @@ public class API_Config {
 
     API_Config(int api_key, String api_secret, String api_url){
         this.api_key = api_key;
-        this.api_secret = api_secret;
+        this.api_secret = api_secret.trim();
         this.api_url = api_url;
     }
 }
