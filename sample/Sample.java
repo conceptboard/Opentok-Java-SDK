@@ -4,7 +4,7 @@ import com.opentok.api.constants.SessionProperties;
 import com.opentok.api.constants.RoleConstants;
 import com.opentok.exception.OpenTokException;
 
-class Test {
+class Sample {
 	public static void main(String argv[]) throws OpenTokException {
 		OpenTokSDK sdk = OpenTokSDK.testing();
 
