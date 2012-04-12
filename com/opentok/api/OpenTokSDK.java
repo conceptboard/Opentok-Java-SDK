@@ -35,10 +35,10 @@ public class OpenTokSDK {
 	}
 
 	public static OpenTokSDK staging(int api_key, String api_secret) {
-		return new OpenTokSDK(new API_Config(api_key, api_secret, API_Config.STAGING_URL));
+		return create(api_key, api_secret, API_Config.STAGING_URL);
 	}
 	public static OpenTokSDK production(int api_key, String api_secret) {
-		return new OpenTokSDK(new API_Config(api_key, api_secret, API_Config.PRODUCTION_URL));
+		return create(api_key, api_secret, API_Config.PRODUCTION_URL);
 	}
 	public static OpenTokSDK create(int api_key, String api_secret, String api_url) {
 		return new OpenTokSDK(new API_Config(api_key, api_secret, api_url));
