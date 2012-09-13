@@ -4,9 +4,9 @@ import com.opentok.api.constants.SessionProperties;
 import com.opentok.api.constants.RoleConstants;
 import com.opentok.exception.OpenTokException;
 
-class Sample {
+class Test {
 	public static void main(String argv[]) throws OpenTokException {
-		OpenTokSDK sdk = OpenTokSDK.testing();
+		OpenTokSDK sdk = new OpenTokSDK(API_Config.API_KEY,API_Config.API_SECRET);
 
 		//Generate a token
 		String s = sdk.generate_token("session");

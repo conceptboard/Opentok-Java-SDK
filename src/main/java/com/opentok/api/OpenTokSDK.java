@@ -29,23 +29,13 @@ import com.opentok.util.TokBoxXML;
 import com.opentok.api.OpenTokSession;
 
 public class OpenTokSDK {
-	protected final API_Config apiConfig;
 
-	private OpenTokSDK(API_Config apiConfig){
-		this.apiConfig = apiConfig;
-	}
+	protected int api_key;
+	protected String api_secret;
 
-	public static OpenTokSDK staging(int api_key, String api_secret) {
-		return create(api_key, api_secret, API_Config.STAGING_URL);
-	}
-	public static OpenTokSDK production(int api_key, String api_secret) {
-		return create(api_key, api_secret, API_Config.PRODUCTION_URL);
-	}
-	public static OpenTokSDK create(int api_key, String api_secret, String api_url) {
-		return new OpenTokSDK(new API_Config(api_key, api_secret, api_url));
-	}
-	public static OpenTokSDK testing() {
-		return new OpenTokSDK(API_Config.TEST_API_CONFIG);
+	public OpenTokSDK(int api_key, String api_secret) {
+		this.api_key = api_key;
+		this.api_secret = api_secret.trim();
 	}
 
 	/**
@@ -103,12 +93,12 @@ public class OpenTokSDK {
 
 			StringBuilder inner_builder = new StringBuilder();
 			inner_builder.append("partner_id=");
-			inner_builder.append(apiConfig.api_key);
+			inner_builder.append(this.api_key);
 
 			inner_builder.append("&sig=");
 
 			inner_builder.append(GenerateMac.calculateRFC2104HMAC(data_string_builder.toString(),
-																  apiConfig.api_secret));
+																  this.api_secret));
 			inner_builder.append(":");
 			inner_builder.append(data_string_builder.toString());
 
@@ -177,9 +167,9 @@ public class OpenTokSDK {
 	protected TokBoxXML do_request(String url, Map<String, String> params) throws OpenTokException {
 		TokBoxNetConnection n = new TokBoxNetConnection();
 		Map<String, String> headers = new HashMap<String, String>();
-		headers.put("X-TB-PARTNER-AUTH", apiConfig.api_key + ":" + apiConfig.api_secret);
+		headers.put("X-TB-PARTNER-AUTH", this.api_key + ":" + this.api_secret);
 
-		return new TokBoxXML(n.request(apiConfig.api_url + url, params, headers));
+		return new TokBoxXML(n.request(API_Config.API_URL + url, params, headers));
 	}
 
 	protected static String join(List<String> s, String delimiter) throws java.io.UnsupportedEncodingException{
